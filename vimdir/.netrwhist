@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/saketkus/ws/git-ws'
+let g:netrw_dirhist_2='/home/saketkus/ws'
+let g:netrw_dirhist_3='/home/saketkus'
+let g:netrw_dirhist_4='scp://mvpxe4/'
+let g:netrw_dirhist_5='/home/saketkus/ws/git-ws/00-4/panos/ipsec'
+let g:netrw_dirhist_6='/etc/X11/xorg.conf.d'
+let g:netrw_dirhist_7='/home/saketkus/ws/00-f3/32/panos'
+let g:netrw_dirhist_8='/home/saketkus/ws/00-f3/32/panos/agent/ti-mibs'
