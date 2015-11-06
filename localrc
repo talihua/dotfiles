@@ -1,0 +1,292 @@
+# Settings from bashrc
+
+#
+# CVS things
+#
+export CVSROOT=":pserver:$USER@cvspc.mv.usa.alcatel.com:/swdev/cvsrep"
+export GASHROOT=":pserver:$USER@gashpc.mv.usa.alcatel.com:/swdev/cvsrep"
+export ADMINROOT=":pserver:$USER@cvspc.mv.usa.alcatel.com:/swdev/adminrep"
+export CVSREAD=TRUE
+
+#
+# Things for building PANOS
+#
+export MAKE_MODE=UNIX
+# The default TiMOS build targets.
+export TGT_HW=i386
+export TGT_SYS=both
+
+#
+# Sun's java compiler. The thing gets installed in different
+# places depending upon the particular versions. Something that revs
+# once per month is sort of a problem... Try and "guess" at the most recent
+# one. Surely the most recent is the "best", right?
+#
+# jdk=$(/bin/ls -d -t /j2sdk* 2>/dev/null | head -1)
+# if [ "${jdk}" != "" ]
+# then
+#     export PATH="${PATH}:${jdk}/bin"
+# else
+#     jdk=$(/bin/ls -d -t /jdk* 2>/dev/null | head -1)
+#     if [ "${jdk}" != "" ]
+#     then
+#         export PATH="${PATH}:${jdk}/bin"
+#     fi
+# fi
+
+#
+# If you have timostools, then use it
+#
+if [ -d /usr/local/timostools ]
+then
+    export PATH="/usr/local/timostools:${PATH}"
+else
+    echo "You do not appear to have the SW development tools."
+fi
+
+#
+# If you have a bin in your home directory, we'll use it
+#
+if [ -d ${HOME}/bin ]
+then
+    export PATH="${PATH}:${HOME}/bin"
+fi
+
+#
+# Finally, use current directory
+#
+export PATH="${PATH}:."
+
+
+# Setup Context Related Variables
+PAN_DIR=`pwd`
+MGMT_IP_SUBNET=192.168.2.
+CFGS_DIR=/cfgs
+WIN_DESKTOP=/Docume~1/saketkus/Desktop
+TIMOS_RCIT_INSTALL_DIR=/RCIT/RCIT-05-02-06
+export TIMOS_RCIT_INSTALL_DIR
+
+# cd command aliases
+
+alias dbg='echo panos-target 172.21.39.222 bin/7xxx-i386/cpm64.st;gdb'
+alias tagbase='regress -subTopology express -tagimages saketkus -testbed'
+alias tagmajor='regress -subTopology express -issu_mode major -issu_base_dir saketkus -testbed'
+alias issureg='regress -reason \"`pwd`\" -subTopology express -issu_mode major  -testbed'
+alias minissureg='regress -reason \"`pwd`\" -subTopology express -issu_mode mixedCpm  -testbed'
+alias dumpstruct='TGT_SYS=cpm TGT_HW=i386 make/dumpstruct.sh -i'
+alias dumpstructhops='TGT_SYS=cpm TGT_HW=hops make/dumpstruct.sh -i'
+alias getgen='make/distws.sh -get gen/agent/,*'
+alias zgetgen='/bin/bash -c "make/distws.sh -get gen/agent/,*"'
+alias panos='cd $PAN_DIR'
+alias cli='cd $PAN_DIR/cli'
+alias cligen='cd $PAN_DIR/gen/7xxx/cli/gen'
+alias agent='cd $PAN_DIR/agent/'
+alias tools='cd $PAN_DIR/agent/ti-mibs/tools'
+alias mibs='cd $PAN_DIR/agent/ti-mibs'
+alias arf='cd $PAN_DIR/agent/ti-mibs/arf'
+alias cfgs='cd $CFGS_DIR'
+alias eth='cd /saketkus/ws/tools/ethereal'
+alias chkfile='$PAN_DIR/make/chkincludes.sh i386 '
+alias reg='regress -subTopology express -reason \"`pwd`\" -testbed'
+alias dcreg='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -runlevel express -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -nobuild -customMibs true -testbed'
+alias dcqreg='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -testbed'
+alias sanity='regress -runSuite Sanity -reason \"`pwd`\" -testbed'
+alias debug='make/db_get_symbols.sh;make/db_get_mods.sh cli agent rapidlogic svcmgr logger'
+alias rc='/bin/bash -c "rapidcontrol -w"'
+alias mymibs='ln -s $PAN_DIR/agent/ti-mibs ~/.snmp/mibs'
+alias mvpxe4='telnet mvpxe4.mv.usa.alcatel.com -a'
+
+# Shorter aliases
+alias g='grep -n'
+alias em='runemacs'
+
+# Modified Files 
+alias m='cvs -n up -P -d 2>/dev/null | grep -v "^[/?U]";ls $PAN_DIR/cli/editing 2>/dev/null'
+
+# Clean up extra files
+alias f='rm -f *~ *# LEAF STUB OUT.lisp *.warns T .*~'
+alias mibclean='mibs; rm -f *~ *# LEAF STUB OUT.lisp *.warns T *.c *.h *.xml'
+alias toolmibs='mibs; cd tools; cvs edit *.p?; cd ..; rm -f *.p?; cp tools/*.p? .'
+alias mibtools='mibs; rm -f tools/*.p?; cp *.p? tools/'
+
+alias vi='vim'
+
+# Build related aliases
+alias mks='mk --summary'
+
+# SNMP Related Aliases
+# VM 1
+alias walk='snmpwalk -c private -v 2c -O b'
+alias set='snmpset -c private -v 2c -O b -Ir'
+alias get='snmpget -c private -v 2c -O b'
+alias next='snmpgetnext -c private -v 2c -O b'
+alias translate='snmptranslate -Ib -Td'
+
+# VM 1
+alias walk198='snmpwalk -c private -v 2c -O b 172.21.39.29'
+alias set198='snmpset -c private -v 2c -O b -Ir 172.21.39.29'
+alias get198='snmpget -c private -v 2c -O b 172.21.39.29'
+alias next198='snmpgetnext -c private -v 2c -O b 172.21.39.29'
+
+#VM 2
+alias walk197='snmpwalk -c private -v 2c -O b 172.21.39.221'
+alias set197='snmpset -c private -v 2c -O b -Ir 172.21.39.221'
+alias get197='snmpget -c private -v 2c -O b 172.21.39.221'
+alias next197='snmpgetnext -c private -v 2c -O b 172.21.39.221'
+
+alias tags='echo "find . -name *.c -o -name *.h | xargs etags -f TAGS"; find . -name *.c -o -name *.h | xargs etags -f TAGS'
+
+# Setup Perl Directory
+# if [ -d /usr/local/Perl/bin ]
+# then
+#     PERL_DIR=/usr/local/Perl/bin
+#     SENDMAIL=/usr/local/Perl/bin/sendmail.pl
+# elif [ -d h:/usr/local/Perl ]
+# then
+#     PERL_DIR=h:/usr/local/Perl
+#     SENDMAIL=h:/usr/local/bin/sendmail.pl
+# else
+#     echo "Can't find Perl directory."
+# fi
+
+# Use Colors
+# LS_OPTIONS='--color=auto'
+
+export REF_DIR=`pwd`
+
+#jdk=/Program\ Files/Java/jdk1.7.0_40
+#export PATH="${PATH}:${jdk}/bin"
+#export PATH="${PATH}:/sbin/"
+export PATH="/usr/local/timostools/netsnmp5:${PATH}:/sbin/:/usr/sbin/:/home/saketkus/myscripts/:/home/saketkus/myscripts/pyscript/:/usr/global/bin/"
+alias mibcheck='$PAN_DIR/agent/ti-mibs/tools/checkmibgroups.pl'
+#echo  to do snmp operations do: linkmibs.sh `pwd`
+
+###################################################################################################
+#                                      Saket: My Aliases
+###################################################################################################
+
+alias debugcli='make/db_get_symbols.sh;make/db_get_mods.sh cli'
+alias debugagent='make/db_get_symbols.sh;make/db_get_mods.sh agent'
+alias debugcar='make/db_get_symbols.sh;make/db_get_mods.sh cli agent rapidlogic'  
+alias debugsvcmgr='make/db_get_symbols.sh;make/db_get_mods.sh svcmgr'
+
+#Build
+alias dcboot='mkboot TGT_PF=dctor'
+alias dcboth='mkboth TGT_PF=dctor'
+alias dccpm='mkcpm TGT_PF=dctor'
+alias mkdctor='dcboot;dcboth' 
+alias mkdccpm='dcboot;dccpm' 
+alias mk='mk --nice'
+
+###################################################
+#                  Export Params                  #
+###################################################
+
+# SIM INFO
+export SIM198=172.21.39.29
+export mac_sim198=00:25:90:D8:CE:5A
+
+export SIM197=172.21.39.221
+
+# Github
+export GITHUB_URL='git@github.mv.usa.alcatel.com'
+
+#Default Cscope Editor
+export EDITOR=vim
+
+###################################################
+
+#Regressions
+alias q1='regress -platform dctor -subTopology dctorOvs -runLevel express -bofa enableChecks -runSuite Sanity -reason "\`pwd\`" -nobuild -testbed'
+alias sanityexp='regress -subTopology dcExpress -runLevel express -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause debug -bofa enableChecks -cvs_tag TiMOS-DC_0_0 -useimages dctor/0.0/latest -testbed '
+
+alias dcregmibs='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -runlevel express -customMibs true -nobuild -testbed'
+alias dcregq='regress -platform dctor -subTopology dctorOvs -runLevel quick  -nobuild -bofa enableChecks -reason \"`pwd`\" -cnaSim false -customMibs true -testbed '
+alias dcregxen='regress -platform dctor -physTopology dctorOvs -subTopology xenserver -cvs_tag TiMOS-DC_0_0_current -priority P2 -runLevel regular -runSuite dvrsBasic -cnaSim false -exitOnFailure true -vsdInternal true -nobuild -forcePause xenserver_testing -testbed'
+alias dcregnsg='regress -physTopology nsg -cvs_tag TiMOS-DC_0_0 -priority P3 -platform dctor -reason \"`pwd`\" -runlevel express -customMibs true -nobuild -cnaSim false -testbed'
+alias gashexp='echo "gash -subTopology dcExpress -runLevel express -platform dctor -bofa enableChecks -cvs_tag TiMOS-DC_0_0"'
+alias gashovs='echo "gash -subTopology dctorOvs -runLevel regular -platform dctor -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -cnaSim false"'
+alias gashnsg='echo "gash -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular"'
+alias gashunit='echo "gash -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_0_0 -runLevel regular"'
+
+# regress completion
+if [ -f ~/.regress_completion ]; then
+    # REGRESS_TESTBEDS="mvdcdev"
+    # REGRESS_SUBTOP="dcExpress dctorOvs altos"
+    # REGRESS_SUITES="Sanity"
+    # REGRESS_TESTS=""
+    # REGRESS_IMAGES="0.0/latest"
+    # ~/.regress_completion
+fi
+
+#Git
+alias gdiff='git diff --name-status'
+alias gvdiff='meld `pwd` &'
+alias gReview='git diff | java -jar /home/saketkus/Softwares/difr/difr.jar'
+alias startGitblit='java -jar /home/saketkus/Softwares/gitblit-1.4.1/gitblit.jar --baseFolder /home/saketkus/ws/data/ &'
+#source /home/saketkus/git-completion.bash
+
+#SIMBED
+alias sim197='telnet 172.21.32.53 2032'
+alias sim197_1='telnet 172.21.32.53 2501' 
+alias sim198='telnet 172.21.32.54 2024'
+
+#Linkmib
+alias linkmib='linkmibs.sh $PAN_DIR'
+alias linkmibw='linkmibs.sh -wireshark /home/saketkus/.wireshark/ $PAN_DIR'
+
+#Local Alias
+#alias vncserver='vncserver :1 -nolisten local -geometry 1440x1080'
+alias vncserver='vncserver :1 -nolisten local -geometry 1920x900'
+alias sublime='/home/saketkus/Softwares/Sublime/sublime_text'
+alias dcgetsym='getgen;make/db_get_symbols.sh;make/db_get_mods.sh cli agent nvc'
+alias bLocal='sed -i s/DIST=1/DIST=0/g $PAN_DIR/prefs.mk'
+alias bDist='sed -i s/DIST=0/DIST=1/g $PAN_DIR/prefs.mk'
+alias rcsource='source /home/saketkus/.zshrc'
+alias epi='cd epilogue/host/src/wrn/wm/mibcomp/'
+alias rcvim='v ~/.vimrc'
+alias confsim197='sshpass -p tigris ssh -t saketkus@mvpxe4 "cd /tftpboot/devsimgrp06/images/saketkus/devsim0101/ && bash"'
+alias confsim198='sshpass -p tigris ssh -t saketkus@mvpxe4 "cd /tftpboot/devsimgrp07/images/saketkus/devsim0101/ && bash"'
+alias cron_edit='VISUAL=/usr/bin/gedit crontab -e'
+alias build_log='cat /home/saketkus/tmp/pyscript/log/build_workspace.log'
+alias build_err='cat /home/saketkus/tmp/pyscript/log/build_workspace.err'
+alias mib_error='v gen/agent/gen/work/mibskel.tmp'
+
+#Mount shortcuts
+alias usrg='sudo mount -t nfs cumulo.us.alcatel-lucent.com:/usr_global /usr/global/cumulo/'
+
+# Nuage Release
+alias nuage-rel='ftp 172.22.34.57'
+alias nuage-vrs='sshpass -p "nuagevrs" ssh -Y root@172.22.187.177'
+
+#Post System Reboot Aliases
+alias primary_mon="xrandr --output HDMI-0 --primary"
+
+#Really short aliases
+alias t='gnome-terminal &'
+
+# Cursor shortcuts
+# cur_shape block
+# cur_shape ibeam
+alias cur_shape='gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape'
+
+#Cscope shortcuts
+alias c-d='cscope -d'
+
+#tmux shortcuts
+alias tmux='tmux -2'
+alias rctmux='v ~/.tmux.conf'
+alias gmtool='tmux neww -n "git_merge" "git mergetool"'
+alias txr='tmux source ~/.tmux.conf 2> /dev/null'
+alias tls='tmux ls'
+alias tkw='tmux kill-window -a'
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
+##############################################################
+#            PIP Packages
+##############################################################
+export PIP_ROOT='/home/saketkus/.local/lib/python2.6/site-packages'
+
+# Powerline
+#source $PIP_ROOT/powerline/bindings/zsh/powerline.zsh
+

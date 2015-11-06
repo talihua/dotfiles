@@ -1,0 +1,43 @@
+[user]
+	name = saketkus
+	email = saketkumar.srivastav@alcatel-lucent.com
+[alias]
+	ci = !/usr/local/timostools/gitutils/git-helper.sh ci \"$@\"
+	up = !/usr/local/timostools/gitutils/git-helper.sh up \"$@\"
+	set-hooks = !/usr/local/timostools/gitutils/git-helper.sh set-hooks \"$@\"
+	logg = log --graph --pretty=format:'%Cred%h%Creset %w(100)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	update-helper = "!cd /usr/local/timostools/gitutils; git pull; /usr/local/timostools/gitutils/git-helper.sh install /usr/local/timostools/gitutils"
+	edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; $EDITOR `f`"
+	add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+[helper]
+	showinfo = 2
+	showhint = 1
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true
+[help]
+	format = web
+[web]
+	browser = google-chrome
+[gui]
+	recentrepo = /home/saketkus/ws/git-ws/00-3/panos
+	recentrepo = /home/saketkus/ws/git-ws/00-1/panos
+[sendmail]
+	smtpencryption = tls
+	smtpserver = remote.na.alcatel-lucent.com
+[sendemail]
+	smtpuser = saketkus
+    smtpservport = 587
+[push]
+	default = matching
+[merge]
+	tool = fugitive
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"

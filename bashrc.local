@@ -1,0 +1,683 @@
+# Setup Context Related Variables
+PAN_DIR=`pwd`
+MGMT_IP_SUBNET=192.168.2.
+CFGS_DIR=/cfgs
+WIN_DESKTOP=/Docume~1/saketkus/Desktop
+TIMOS_RCIT_INSTALL_DIR=/RCIT/RCIT-05-02-06
+export TIMOS_RCIT_INSTALL_DIR
+
+# cd command aliases
+
+alias dbg='echo panos-target 172.21.39.222 bin/7xxx-i386/cpm64.st;gdb'
+alias qm='cd $PAN_DIR/cli;m;cd $PAN_DIR/rapidlogic;m;cd $PAN_DIR/agent;m;cd $PAN_DIR/svcmgr;m;cd $PAN_DIR/logger;m;cd $PAN_DIR'
+alias chg='cd $PAN_DIR/cli;cvsnup;cd $PAN_DIR/agent;cvsnup;cd $PAN_DIR/rapidlogic;cvsnup;cd $PAN_DIR/logger;cvsnup;cd $PAN_DIR/svcmgr;cvsnup;cd $PAN_DIR'
+alias tagbase='regress -subTopology express -tagimages saketkus -testbed'
+alias tagmajor='regress -subTopology express -issu_mode major -issu_base_dir saketkus -testbed'
+alias sshdc='ssh saketkus@172.22.186.173'
+alias ftpdc='ftp 172.22.186.173'
+alias sim='cp $PAN_DIR/bin/7xxx-i386/iom.tim z:/sim100/iom.tim'
+alias issureg='regress -reason \"`pwd`\" -subTopology express -issu_mode major  -testbed'
+alias minissureg='regress -reason \"`pwd`\" -subTopology express -issu_mode mixedCpm  -testbed'
+alias dumpstruct='TGT_SYS=cpm TGT_HW=i386 make/dumpstruct.sh -i'
+alias dumpstructhops='TGT_SYS=cpm TGT_HW=hops make/dumpstruct.sh -i'
+alias up='cvsup;mkcpm;cvsnup'
+alias upd='cvsup;mk;cvsnup'
+alias upds='cvsup;mks;cvsnup'
+alias getgen='make/distws.sh -get gen/agent/,*'
+alias clean='mkall clean allhw allpf'
+alias cur='cd $SWDEV/rel1.0/current'
+alias desktop='cd $WIN_DESKTOP'
+alias panos='cd $PAN_DIR'
+alias cli='cd $PAN_DIR/cli'
+alias cligen='cd $PAN_DIR/gen/7xxx/cli/gen'
+alias qos='cd $PAN_DIR/qos'
+alias smgr='cd $PAN_DIR/svcmgr'
+alias rl='cd $PAN_DIR/rapidlogic'
+alias agent='cd $PAN_DIR/agent/'
+alias tools='cd $PAN_DIR/agent/ti-mibs/tools'
+alias mibs='cd $PAN_DIR/agent/ti-mibs'
+alias arf='cd $PAN_DIR/agent/ti-mibs/arf'
+alias cfgs='cd $CFGS_DIR'
+alias eth='cd /saketkus/ws/tools/ethereal'
+alias chkfile='$PAN_DIR/make/chkincludes.sh i386 '
+alias rfcs='cd /rfcs'
+alias testcfgs='cd $PAN_DIR/test; cp -f *.cfg $CFGS_DIR; cd -;ls -lG $CFGS_DIR/setup_cli.cfg $CFGS_DIR/teardown_cli.cfg'
+alias tests='cd ~/ws/gash/testsuites'
+#alias clean='cvs up 2>&1 | grep -E "^\?"; cvs up 2>&1 | grep -E "^\?" | xargs rm -f; cvs up 2>&1 | grep -E "^\?"'
+alias reg='regress -subTopology express -reason \"`pwd`\" -testbed'
+alias dcreg='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -runlevel express -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -nobuild -customMibs true -testbed'
+alias dcqreg='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -testbed'
+alias sanity='regress -runSuite Sanity -reason \"`pwd`\" -testbed'
+alias rbreg='regress -priority P3 -runLevel regular -runSuite RollbackFunctional -reason \"`pwd`\" -testbed'
+alias rbqreg='regress -runLevel quick  -runSuite CliRollback -reason \"`pwd`\" -testbed clitest2'
+alias reg61='regress -runLevel express -reason \"`pwd`\" -testbed'
+alias qreg61='regress -runLevel express -reason \"`pwd`\" -testbed quickbed'
+alias qreg='regress -testbed mvexpr1 -subTopology express -reason \"`pwd`\"'
+alias qreg2='regress -testbed mvexpr2 -subTopology express -reason \"`pwd`\"'
+alias qreg7710='regress -testbed mvspr01 -runLevel express -reason \"`pwd`\" -platform 7710'
+alias qreg77106='regress -testbed mvspr06 -runLevel express -reason \"`pwd`\" -platform 7710'
+alias svcreg='regress -testbed clitest2  -runLevel quick  -runSuite Cli_Service -reason \"`pwd`\"'
+alias pwreg='regress -runLevel quick  -runSuite dynMsPw_Cli_Snmp -reason \"`pwd`\" -testbed'
+alias qosreg='regress -runSuite Cli_Qos -reason \"`pwd`\" -testbed'
+alias svcreg7710='regress -testbed clitest3  -runLevel quick  -runSuite Cli_Service -platform 7710 -reason \"`pwd`\"'
+alias clireg='regress -runLevel quick -reason \"`pwd`\" -testbed '
+alias negreg='regress -testbed devtest8 -runSuite 7450neg -platform 7450 -runLevel quick -reason \"`pwd`\"'
+alias ipv6reg='regress -testbed betatest -platform 7750 -subTopology newZealandIom -- -runSuite Ipv6 -reason \"`pwd`\"'
+alias ltereg='regress -testbed mvltetb14 -runLevel express -reason \"`pwd`\"'
+alias monreg='regress -runTest asapatmframePPPfullds3ds1portshut -exitOnFailure true -iOverSubFactor 1.5 -runLevel extreme -reason \"`pwd`\" -testbed'
+alias debug='make/db_get_symbols.sh;make/db_get_mods.sh cli agent rapidlogic svcmgr logger'
+alias majreg='regress -issu_base_dir /usr/global/images/9.0/latest_s -issu_mode mixedCpm -runLevel regular -subTopology expressMagma -reason \"`pwd`\" -testbed'
+alias rc='mkcli -w -e;rapidcontrol'
+alias mymibs='ln -s $PAN_DIR/agent/ti-mibs ~/.snmp/mibs'
+alias mvpxe4='telnet mvpxe4.mv.usa.alcatel.com -a'
+alias sshyang='ssh -l saketkus 172.22.187.189'
+#alias gvim='C\:/Program\ Files\ \(x86\)/Vim/vim74/gvim.exe '
+alias mylog='cvs log -wsaketkus -S -N -d'
+alias ipsecreg='regress -runLevel regular -runSuite master_regress_ipsec -testbed mvhwipsec3'
+
+# Shorter aliases
+alias g='grep -n'
+alias em='runemacs'
+
+# Modified Files 
+alias m='cvs -n up -P -d 2>/dev/null | grep -v "^[/?U]";ls $PAN_DIR/cli/editing 2>/dev/null'
+
+# Clean up extra files
+alias f='rm -f *~ *# LEAF STUB OUT.lisp *.warns T .*~'
+alias mibclean='mibs; rm -f *~ *# LEAF STUB OUT.lisp *.warns T *.c *.h *.xml'
+alias toolmibs='mibs; cd tools; cvs edit *.p?; cd ..; rm -f *.p?; cp tools/*.p? .'
+alias mibtools='mibs; rm -f tools/*.p?; cp *.p? tools/'
+
+alias vi='vim'
+
+# Build related aliases
+alias mks='mk --summary'
+
+# SNMP Related Aliases
+# VM 1
+alias walk='snmpwalk -c private -v 2c -O b'
+alias set='snmpset -c private -v 2c -O b -Ir'
+alias get='snmpget -c private -v 2c -O b'
+alias next='snmpgetnext -c private -v 2c -O b'
+alias translate='snmptranslate -Ib -Td'
+
+# VM 1
+alias walk198='snmpwalk -c private -v 2c -O b 172.21.39.29'
+alias set198='snmpset -c private -v 2c -O b -Ir 172.21.39.29'
+alias get198='snmpget -c private -v 2c -O b 172.21.39.29'
+alias next198='snmpgetnext -c private -v 2c -O b 172.21.39.29'
+
+#VM 2
+alias walk197='snmpwalk -c private -v 2c -O b 172.21.39.221'
+alias set197='snmpset -c private -v 2c -O b -Ir 172.21.39.221'
+alias get197='snmpget -c private -v 2c -O b 172.21.39.221'
+alias next197='snmpgetnext -c private -v 2c -O b 172.21.39.221'
+
+alias dcwalk='snmpwalk -c private -v 2c -O b'
+alias dcset='snmpset -c private -v 2c -O b -Ir'
+alias dcget='snmpget -c private -v 2c -O b'
+alias dcnext='snmpgetnext -c private -v 2c -O b'
+
+
+alias rbQos='regress          -testbed devtest -runLevel regular  -- -runSuite Qos'
+alias rnQos='regress -nobuild -testbed devtest -runLevel regular  -- -runSuite Qos'
+
+alias rnalpha='regress -nobuild -testbed alphatest -runLevel regular -- -runSuite Services'
+alias rndev='regress -nobuild -testbed devtest -runLevel regular -- -runSuite Services'
+alias rndev2='regress -nobuild -testbed devtest2 -runLevel regular -- -runSuite Services'
+alias rndev4='regress -nobuild -testbed devtest4 -runLevel regular -- -runSuite Services'
+alias rnbeta='regress -nobuild -testbed betatest -runLevel regular -- -runSuite Services'
+
+alias tags='echo "find . -name *.c -o -name *.h | xargs etags -f TAGS"; find . -name *.c -o -name *.h | xargs etags -f TAGS'
+
+# Setup Perl Directory
+if [ -d /usr/local/Perl/bin ]
+then
+    PERL_DIR=/usr/local/Perl/bin
+    SENDMAIL=/usr/local/Perl/bin/sendmail.pl
+elif [ -d h:/usr/local/Perl ]
+then
+    PERL_DIR=h:/usr/local/Perl
+    SENDMAIL=h:/usr/local/bin/sendmail.pl
+else
+    echo "Can't find Perl directory."
+fi
+
+# Use Colors
+LS_OPTIONS='--color=auto'
+
+export REF_DIR=`pwd`
+
+#jdk=/Program\ Files/Java/jdk1.7.0_40
+#export PATH="${PATH}:${jdk}/bin"
+#export PATH="${PATH}:/sbin/"
+export PATH="/usr/local/timostools/netsnmp5:${PATH}:/sbin/:/usr/sbin/:/home/saketkus/myscripts/:/home/saketkus/myscripts/pyscript/:/usr/global/bin/"
+alias mibcheck='$PAN_DIR/agent/ti-mibs/tools/checkmibgroups.pl'
+echo  to do snmp operations do: linkmibs.sh `pwd`
+
+###################################################################################################
+#                                      Saket: My Aliases                                        
+###################################################################################################
+
+alias w2u='rl;cd rcit;dos2unix ./*.ccp;panos'
+alias debugcli='make/db_get_symbols.sh;make/db_get_mods.sh cli'
+alias debugagent='make/db_get_symbols.sh;make/db_get_mods.sh agent'
+alias debugcar='make/db_get_symbols.sh;make/db_get_mods.sh cli agent rapidlogic'  
+alias debugsvcmgr='make/db_get_symbols.sh;make/db_get_mods.sh svcmgr'
+alias rc1='rapidcontrol -w'
+
+#Build
+alias dcboot='mkboot TGT_PF=dctor'
+alias dcboth='mkboth TGT_PF=dctor'
+alias dccpm='mkcpm TGT_PF=dctor'
+alias mkdctor='dcboot;dcboth' 
+alias mkdccpm='dcboot;dccpm' 
+alias mk='mk --nice'
+
+###################################################
+#                  Export Params                  #
+###################################################
+
+# SIM INFO
+export SIM198=172.21.39.29
+export mac_sim198=00:25:90:D8:CE:5A
+
+export SIM197=172.21.39.221
+
+# Github
+export GITHUB_URL='git@github.mv.usa.alcatel.com'
+
+#Default Cscope Editor
+export EDITOR=vim
+
+###################################################
+
+#Regressions
+alias q1='regress -platform dctor -subTopology dctorOvs -runLevel express -bofa enableChecks -runSuite Sanity -reason "\`pwd\`" -nobuild -testbed'
+alias sanityexp='regress -subTopology dcExpress -runLevel express -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause debug -bofa enableChecks -cvs_tag TiMOS-DC_0_0 -useimages dctor/0.0/latest -testbed '
+function sanityovs () {
+    if [[ -z $2 || -z $3 ]]
+    then
+        echo 'usage: sanityovs <00> <pause reason> <testbed> $@'
+        echo 'regress -subTopology dctorOvs -runLevel regular -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause <reason> -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -cnaSim false -customMibs true -testbed <name>'
+        return 1
+    fi
+    case $1 in
+        00) regress -subTopology dctorOvs -runLevel regular -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause $2 -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -cnaSim false -customMibs true -testbed $3 ${@:4}
+        ;;
+        32) regress -subTopology dctorOvs -runLevel regular -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause $2 -cvs_tag TiMOS-DC_3_2_current -bofa enableChecks -cnaSim false -customMibs true -testbed $3 ${@:4}
+        ;;
+        *) regress -subTopology dctorOvs -runLevel regular -platform dctor -nobuild -reason \"`pwd`\" -runSuite Sanity -forcePause $2 -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -cnaSim false -customMibs true -testbed $3 ${@:4}
+        ;;
+    esac
+}
+
+function sanitynsg () {    
+    if [[ -z $2 || -z $3 ]]
+    then
+        echo "usage: sanitynsg <00> <pause reason> <testbed> \$@"
+        echo 'regress -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause <reason> -runSuite Sanity -nobuild -useimages dctor/0.0/current -testbed <name>'
+        return 1
+    fi
+    case $1 in
+        00) regress -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+        ;;
+        32) regress -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_3_2_current -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+        ;;
+        *) regress -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+        ;;
+    esac
+}
+
+function sanityunit () {    
+    if [[ -z $2 || -z $3 ]]
+    then
+        echo "usage: sanityunit <00> <pause reason> <testbed> \$@"
+        echo 'regress -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause <reason> -runSuite Sanity -nobuild -testbed <name>'
+        return 1
+    fi
+    case $1 in
+        00) regress -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+        ;;
+        32) regress -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_3_2_current -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+        ;;
+        *) regress -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular -forcePause "$2" -runSuite Sanity -nobuild -testbed $3 ${@:4}
+    esac
+}
+
+function gitr () {
+    if [[ -z $1 ]]
+    then
+        echo 'usage: gitr <remote-csl>'
+        echo 'git remote add <csl> git@github.mv.usa.alcatel.com:<CSL>/TiMOS.git'
+    else
+        git remote add $1 git@github.mv.usa.alcatel.com:$1/TiMOS.git
+        git remote
+        git fetch $1
+        git branch -a | grep $1
+    fi
+}
+
+function repo-up () {
+    curr_pwd=`pwd`
+    cd $HOME/ws/repo/panos/
+    source $HOME/.bashrc.local > /dev/null
+    git checkout TiMOS-DC_0_0 2> /dev/null
+    git up > /dev/null
+    cd $curr_pwd
+}
+
+# $1 : branch name
+# $2 : ws_dir
+# $3 : panos_dir
+function clone_ws() {
+    cd $HOME/ws/repo/panos
+    git checkout $1
+    if [[ ! -d $2 ]]
+    then
+        mkdir -p $2
+    fi
+    git clone -b $1 $HOME/ws/repo/panos $2/$3
+    cd $2/$3
+    git remote set-url origin git@github.mv.usa.alcatel.com:SROS/TiMOS.git 
+    source $HOME/.bashrc.local
+    echo '-------------------------------------------'
+    echo '-       New Workspace Info                -'
+    echo '-------------------------------------------'
+    git branch -a
+    git remote -v
+}
+
+
+# Prepares a workspace environment
+function setws() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: setws <branch-version> <ws_dir>'
+        echo '       setws 00 mclag'
+    else
+        case $1 in
+            00) clone_ws TiMOS-DC_0_0 $HOME/ws/$2/00 'panos'
+            ;;
+            32) clone_ws TiMOS-DC_3_2_current $HOME/ws/$2/32 'panos'
+            ;;
+            40) clone_ws TiMOS-DC_4_0_current $HOME/ws/$2/40 'panos'
+            ;;
+        esac
+    fi
+}
+
+# Add official repo
+function add_official () {
+    git remote add official $GITHUB_URL:SROS/TiMOS.git
+    git fetch official
+}
+
+# Clones a remote user repo
+# $1 user_name
+function clone_user_repo () {
+    git clone $GITHUB_URL:$1/TiMOS.git panos
+}
+
+function init_prefs_mk () {
+    echo 'DIST=1' > prefs.mk
+}
+
+function post_ws_setup () {
+    add_official
+    init_prefs_mk
+}
+
+# Add a remote of user
+function add-remote () {
+    if [[ -z $1 ]]
+    then
+        echo 'usage: add-remote <remote-csl>'
+    else
+        if [[ ! -d $HOME/ws/remotes/$2 ]]
+        then
+            mkdir -p $2
+        fi
+        cd $HOME/ws/remotes/$2
+        clone_user_repo $2
+        cd panos
+        add_official
+        git remote -v
+    fi
+}
+
+
+alias dcregmibs='regress -subTopology dcExpress -platform dctor -reason \"`pwd`\" -runlevel express -customMibs true -nobuild -testbed'
+alias dcregq='regress -platform dctor -subTopology dctorOvs -runLevel quick  -nobuild -bofa enableChecks -reason \"`pwd`\" -cnaSim false -customMibs true -testbed '
+alias dcregxen='regress -platform dctor -physTopology dctorOvs -subTopology xenserver -cvs_tag TiMOS-DC_0_0_current -priority P2 -runLevel regular -runSuite dvrsBasic -cnaSim false -exitOnFailure true -vsdInternal true -nobuild -forcePause xenserver_testing -testbed'
+alias dcregnsg='regress -physTopology nsg -cvs_tag TiMOS-DC_0_0 -priority P3 -platform dctor -reason \"`pwd`\" -runlevel express -customMibs true -nobuild -cnaSim false -testbed'
+alias gashexp='echo "gash -subTopology dcExpress -runLevel express -platform dctor -bofa enableChecks -cvs_tag TiMOS-DC_0_0"'
+alias gashovs='echo "gash -subTopology dctorOvs -runLevel regular -platform dctor -cvs_tag TiMOS-DC_0_0 -bofa enableChecks -cnaSim false"'
+alias gashnsg='echo "gash -physTopology nsg -platform dctor -cvs_tag TiMOS-DC_0_0 -priority P3 -runLevel regular"'
+alias gashunit='echo "gash -platform dctor -subTopology stdUnit -cvs_tag TiMOS-DC_0_0 -runLevel regular"'
+
+# regress completion
+# if [ -f ~/.regress_completion ]; then
+#     REGRESS_TESTBEDS="mvdcdev"
+#     REGRESS_SUBTOP="dcExpress dctorOvs altos"
+#     REGRESS_SUITES="Sanity"
+#     REGRESS_TESTS=""
+#     REGRESS_IMAGES="0.0/latest"
+# . ~/.regress_completion
+# fi
+
+#Git
+alias gdiff='git diff --name-status'
+alias gvdiff='meld `pwd` &'
+alias gReview='git diff | java -jar /home/saketkus/Softwares/difr/difr.jar'
+alias startGitblit='java -jar /home/saketkus/Softwares/gitblit-1.4.1/gitblit.jar --baseFolder /home/saketkus/ws/data/ &'
+#source /home/saketkus/git-completion.bash
+
+#SIMBED
+alias sim197='telnet 172.21.32.53 2032'
+alias sim197_1='telnet 172.21.32.53 2501' 
+alias sim198='telnet 172.21.32.54 2024'
+
+#Linkmib
+alias linkmib='linkmibs.sh $PAN_DIR'
+alias linkmibw='linkmibs.sh -wireshark /home/saketkus/.wireshark/ $PAN_DIR'
+
+#Local Alias
+#alias vncserver='vncserver :1 -nolisten local -geometry 1440x1080'
+alias vncserver='vncserver :1 -nolisten local -geometry 1920x900'
+alias sublime='/home/saketkus/Softwares/Sublime/sublime_text'
+alias dcgetsym='getgen;make/db_get_symbols.sh;make/db_get_mods.sh cli agent nvc'
+alias bLocal='sed -i s/DIST=1/DIST=0/g $PAN_DIR/prefs.mk'
+alias bDist='sed -i s/DIST=0/DIST=1/g $PAN_DIR/prefs.mk'
+alias rcsource='source /home/saketkus/.bashrc.local'
+alias epi='cd epilogue/host/src/wrn/wm/mibcomp/'
+alias rcbash='gvim ~/.bashrc.local'
+alias rcvim='gvim ~/.vimrc'
+alias white="PS1='\[\e[1;34m\]\w\[\e[m\] \[\e[0;37m\]\$\[\e[m\] \[\e[0;37m\]'"
+alias green="PS1='\[\e[1;34m\]\w\[\e[m\] \[\e[0;32m\]\$ \[\e[m\]\[\e[0;32m\]'"
+alias red="PS1='\[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$\[\e[0;31m\] '"
+alias yellow="PS1='\[\e[1;34m\]\w\[\e[m\] \[\e[0;93m\]\$\[\e[0;93m\] '"
+alias confsim197='sshpass -p tigris ssh -t saketkus@mvpxe4 "cd /tftpboot/devsimgrp06/images/saketkus/devsim0101/ && bash"'
+alias confsim198='sshpass -p tigris ssh -t saketkus@mvpxe4 "cd /tftpboot/devsimgrp07/images/saketkus/devsim0101/ && bash"'
+alias cron_edit='VISUAL=/usr/bin/gedit crontab -e'
+alias build_log='cat /home/saketkus/tmp/pyscript/log/build_workspace.log'
+alias build_err='cat /home/saketkus/tmp/pyscript/log/build_workspace.err'
+alias mib_error='gvim gen/agent/gen/work/mibskel.tmp'
+#My script aliases
+load_certs='vsc_certs SIM198 | at now + 2 min'
+function vsc_certs() {
+    if [[ -z $1 ]]
+    then    
+        echo "usage: vsc_certs <ip>"
+        return
+    fi
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/server.key admin@$1:server.key 2> /dev/null;
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/CAserver.crt admin@$1:CAserver.crt 2> /dev/null;
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/CA.crt admin@$1:CA.crt 2> /dev/null;
+    # sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    # /home/saketkus/Bugs/DC/certs/server.crt admin@$1:server.crt > /dev/null;
+}
+
+function imt() {
+    sshpass -p tigris scp bin/7xxx-i386/cpm.tim bin/7xxx-i386/boot.tim ftpuser@192.168.122.1:/home/ftpuser/images/
+}
+
+function vrs_certs() {
+    if [[ -z $1 ]]
+    then    
+        echo "usage: vrs_certs <ip>"
+        return
+    fi
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/client.key admin@$1:client.key > /dev/null;
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/CAclient.crt admin@$1:CAclient.crt > /dev/null;
+    sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    /home/saketkus/Bugs/DC/certs/CA.crt admin@$1:CA.crt > /dev/null;
+    # sshpass -p admin scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /home/saketkus/Bugs/DC/certs/CA.crl admin@$1:CA.crl > /dev/null;
+}
+
+function rem_ssh() {
+    sed -i "/$1/d" ~/.ssh/known_hosts
+}
+
+function term() {
+    gnome-terminal -e 'telnet $1'
+    tail -f $PAN_DIR/log.txt
+}
+
+function reload_identity() {
+    eval "${ssh-agent -s}"
+    ssh-add ~/.ssh/id_rsa
+}
+
+function vsd() {
+    if [ -z $1 ]
+    then
+        echo 'usage: vsd <testbed>'
+    else
+        opentestbed.py -v -t $1 --app browser 
+    fi
+}
+
+
+function vsdterm() {
+    if [ -z $1 ]
+    then
+        echo 'usage: vsd <testbed>'
+    else
+        opentestbed.py -v -t $1 --app terminal 
+    fi
+}
+
+function vsdip() {
+    if [ -z $1 ]
+    then
+        echo 'usage: vsd <testbed>'
+    else
+        opentestbed.py -v -t $1 --app ip
+    fi
+}
+
+function dut() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: dut <dut-number> <testbed> m '
+    elif [[ -z $3 ]]
+    then
+        opentestbed.py -d $1 -t $2
+    elif [[ $3 == "m" ]]
+    then
+        opentestbed.py -d $1 -t $2 -m
+    else
+        echo 'usage: dut <dut-number> <testbed> m '
+    fi
+}
+
+function ovs() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: ovs <ovs-number> <testbed>'
+    else
+        opentestbed.py -o $1 -t $2
+    fi
+}
+
+function nsg() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: nsg <ovs-number> <testbed>'
+    else
+        opentestbed.py -o $1 -t $2 -n
+    fi
+}
+
+function cpybed() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: cpybed <testbed> <ws-no>'
+    else
+        movetobed.py -t $1 -w $2
+    fi
+}
+
+function cpysim() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo 'usage: cpysim <sim-number> <ws-no> <cc>'
+    elif [[ -z $3 ]]
+    then
+        movetobed.py -s $1 -i dctor -w $2
+    elif [[ $3 == "cc" ]]
+    then
+        movetobed.py -s $1 -i dccc -w $2
+    else
+        echo 'usage: cpysim <sim-number> <ws-no> <cc>'
+    fi
+}
+
+function cpyallsim() {
+    if [[ -z $1 ]]
+    then
+        echo 'usage: cpyallsim <ws-no> <cc>'
+    elif [[ -z $2 ]]
+    then
+        movetobed.py -s all -i dctor -w $1
+    elif [[ $2 != "cc" ]]
+    then
+        movetobed.py -s all -i dccc -w $1
+    else
+        echo 'usage: cpyallsim <ws-no> <cc>'
+    fi
+}
+# Remote Directory on mvpxe4
+alias remdir='gvim /mnt/saketkus/'
+
+PS1='\[\e[1;34m\]\w\[\e[m\] > '
+
+#Tools Tip Twiki
+function mkall() {
+    mk --summary
+    if [[ $(tail --lines=3 log.txt | head --lines=1) == *FAIL* ]]; then
+        notify-send "Build failed" "buildall failed in:\n\t$PWD" -i process-stop -t 5000
+    else
+        notify-send "Build complete" "buildall completed in:\n\t$PWD" -i emblem-default -t 5000
+    fi
+}
+
+function bodyFunc() {
+    if [[ -z $1 || -z $2 ]]
+    then
+        echo "usage: bodyFunc <function-name> <filename>"
+    else
+        sed -n "/$1/,/^}/p" $2
+    fi
+}
+
+# Automatic Reboot SIM box
+function remote-me() {
+    local cmd=$1
+    if [ "$1" != "" ]; then
+        echo "Remotely executing \"$cmd\""
+            ssh -l root mvpxe4 "$cmd"
+    else
+        echo "Please pass a command"
+    fi
+}
+
+function execute-reboot-on-lan() {
+    local sim=$1
+    local action=$2
+    local mac=mac_$sim
+    if [ "${!mac}" != "" ]; then
+        remote-me "reboot-on-lan eth0 ${!mac} $action devsim0101"
+    else
+        echo "no such sim"
+    fi
+}
+
+function wake() {
+    execute-reboot-on-lan $1 0
+}
+
+function sleep-sim() {
+    execute-reboot-on-lan $1 5
+}
+
+function sleep-all-sims() {
+    sleep-sim sim198 
+}
+
+function rb() {
+    execute-reboot-on-lan $1 2
+} 
+
+function term(){
+    if [[ -z $1 ]]; then
+        echo "No command to execute"
+    else
+        gnome-terminal --command "$1" &
+    fi
+}
+
+#Emacs aliases
+# function emacs (){
+#     /usr/local/bin/emacs "$@" &
+# }
+
+#Mount shortcuts
+alias usrg='sudo mount -t nfs cumulo.us.alcatel-lucent.com:/usr_global /usr/global/cumulo/'
+
+# Nuage Release
+alias nuage-rel='ftp 172.22.34.57'
+alias nuage-vrs='sshpass -p "nuagevrs" ssh -Y root@172.22.187.177'
+
+#Post System Reboot Aliases
+alias primary_mon="xrandr --output HDMI-0 --primary"
+
+#Openstack VSP
+alias op_vsc='sshpass -p admin ssh -t -i /home/saketkus/.ssh/saket_135_227_222_31.pem admin@10.31.100.240'
+alias op_vrs='sshpass -p stack ssh -t -i /home/saketkus/.ssh/saket_135_227_222_31.pem stack@10.31.100.241'
+alias op_vsd='ssh -t -i /home/saketkus/.ssh/saket_135_227_222_31.pem centos@10.31.100.24'
+
+#Local VSD Alias
+alias vsdweb='google-chrome-stable -incognito https://10.31.101.78:8443?notimeout'
+alias vsdterm='ssh -i /home/saketkus/.ssh/saket_135_227_222_31.pem centos@10.31.101.78'
+
+#Really short aliases
+alias g='gvim '
+alias t='gnome-terminal &'
+alias jira='google-chrome-stable http://mvjira.mv.usa.alcatel.com:8080/secure/Dashboard.jspa'
+
+#Open jira bug
+function jbug () {
+    google-chrome-stable http://mvjira.mv.usa.alcatel.com:8080/browse/SROS-$1
+}
+
+# Cursor shortcuts
+# cur_shape block
+# cur_shape ibeam
+alias cur_shape='gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape'
+
+#Cscope shortcuts
+alias c-d='cscope -d'
+
+#tmux shortcuts
+alias rctmux='gvim ~/.tmux.conf'
+alias txr='tmux source ~/.tmux.conf 2> /dev/null'
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
+function vw () {
+    if [[ -z $1 ]]
+    then
+        echo "No file given"
+        return 1
+    fi
+    tmux neww "vim $1"
+}
+
+# GIT shortcuts
+alias gl='git log --graph --abbrev-commit --decorate --date=relative --all'
