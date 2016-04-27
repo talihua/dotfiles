@@ -9,6 +9,10 @@
 "Installing extra plugins
 call pathogen#infect()
 call pathogen#helptags()
+
+" Set Mapleader
+let mapleader=","
+
 "--------------------------------------------------------------------------
 "behave mswin
 "--------------------------------------------------------------------------
@@ -36,7 +40,7 @@ endif
 " Clipboard to system clipboard.
 "--------------------------------------------------------------------------
 " behave mswin
-"set clipboard=unnamed
+set clipboard=unnamed
 
 "--------------------------------------------------------------------------
 " Syntax highlighting, specify 'off' to disable.
@@ -79,19 +83,6 @@ else
     " let g:solarized_termcolors=16
 endif
 :colorscheme solarized
-
-""""""""" Kalisi """"""""""""
-":colorscheme kalisi
-"let &t_AB="\e[48;5;%dm"
-"let &t_AF="\e[38;5;%dm"
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                Cursor Modifications                "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"    
-au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-au VimEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
 
 "--------------------------------------------------------------------------
 " Syntax specifics
@@ -244,7 +235,7 @@ set   visualbell
 set whichwrap=31
 
 " wrap       - wrap long lines within window
-" set wrap
+"set wrap
 set nowrap
 
 " wrapscan   - when searching, continue at top of file
@@ -275,15 +266,6 @@ set fo=cqwan
 " cursorline - highlight the current line containing the cursor.
 " set nocursorline
 set cursorline
-
-" Vim 7.0 Features --END--
-
-" tags       - where is the tags file located?
-"            - default is ./tags,tags
-"            - add "/$USER/ws/<name>/tags for 7710 tags
-"set tags=../tags,tags,$ROOT_DIRECTORY/tags
-"set columns=90
-"set lines=45
 
 " PANOS specific settings
 let diry=getcwd()
@@ -321,21 +303,11 @@ let g:is_bash = 1
 " F8 -- map F8 key to run taglist plugin.
 nnoremap <silent> <F8> :Tlist<CR>
 
-"Mappings of laziness:
-"inoremap [ []<LEFT>
-"inoremap ( ()<LEFT>
-"inoremap " ""<LEFT>
-"inoremap ' ''<LEFT>
-"inoremap { {}<Left>
-
 vnoremap ( s()<Esc>P<Right>
 vnoremap [ s[]<Esc>P<Right>
 vnoremap { s{}<Esc>P<Right>
 vnoremap " s""<Esc>P<Right>
 vnoremap ' s''<Esc>P<Right>
-
-" Swap <control-S> the left and right-hand side of an assignment
-noremap <C-S> :s/\([^ =]*\)\([ ]*\)=[ ]*\([^;]*\);/\3 = \1;/<CR>:nohl<CR>
 
 " Sort the include list:
 nnoremap #sort :silent !/usr/local/timostools/reorderincludes.pl %<CR>
@@ -408,18 +380,9 @@ nnoremap <F9> :!$mibtag      -d -o $HOME/tmp/mib.dic<CR><bar>:silent mkspell! $H
 "$HOME/tmp/mib.dic<CR><bar>:silent mkspell! $HOME/tmp/mib.spl 
 "$HOME/tmp/mib.dic<CR>
 
-" Map \d to 'delete' but don't remember what you deleted!
-nnoremap <leader>d  "_d
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                          My Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Remove highlighting of previous search
-:map <C-h> :nohl<CR>
-
-" Move quickly to-from header source files
-:map <leader>a :A<CR>
 
 "VIMRC AutoReload
 augroup reload_vimrc " {
@@ -430,38 +393,11 @@ augroup END " }
 " Default VIM to split right instead of left
 set splitright
 
-" Copy Paste System Clipboard
-nnoremap <leader>y "+y
-nnoremap <leader>pp :set paste<CR>o<esc>"+[p<CR> :set nopaste<CR> " paste from clipboard
-nnoremap <leader>P "+P
-
-" Fast saving
-nmap <leader>wq :wqall!<cr>
-nmap <leader>q :qa!<cr>
-nmap <leader>w :w!<cr>
-
 " Automatically wrap at 80 characters for Markdown
 autocmd BufRead,BufNewFile *.mib setlocal textwidth=80
 
 "Force quickfix to take full horzintal space
 au FileType qf wincmd J
-
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with vimgrep, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-map <leader>cc :botright cwindow<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-
 
 if has("cscope")
         "uncomment for linux
@@ -663,6 +599,7 @@ function! DoPrettyXML()
 endfunction
 command! PrettyXML call DoPrettyXML()
 
+nmap <silent> <leader>x :PrettyXML<CR>
 
 " CTRL-P Plugin settings
 let g:ctrlp_follow_symlinks=1
@@ -693,7 +630,98 @@ endif
 autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window '" . expand("%:t") . "'")
 
 " Mapping compilation command
-nnoremap <F12> :ConqueTermVSplit mk cpm i386<CR>
+"nnoremap <F12> :ConqueTermVSplit mk cpm i386<CR>
+
+" Using Ag silver searcher
+if executable('ag')
+    " From Vimbits
+    " set grepprg=ag\ -l\ -i\ --ignore-dir=^bin\ --ignore-dir="^obj"\ --ignore-dir="^deps"\ -G "*\.(h|c|mib)"\ --nogroup\ --nocolor\ -U\ -C\ 2 
+    set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --ignore-dir=^bin\ --ignore-dir="^obj"\ --ignore-dir="^deps" 
+
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+    " Use grep for the word under the cursor
+    nnoremap K :silent! grep! "\b<C-r><C-w>\b"<CR>:cwindow<CR>:redraw!<CR>
+
+    " ctrl-p use ag for Searching
+    let g:ctrlp_user_command = 'ag %s -i -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+endif
+
+
+" use ,F to jump to tag in a vertical split
+nnoremap <silent> ,F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
+
+" use ,gf to go to file in a vertical split
+nnoremap <silent> ,gf :vertical botright wincmd f<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                               Leader commands
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Map \d to 'delete' but don't remember what you deleted!
+nnoremap <leader>d  "_d
+
+" List buffers and switch to one quickly
+nnoremap <leader>b :ls<CR>:buffer<Space>
+
+" auto format JSON File
+nnoremap <leader>j :%!python -m json.tool
+
+" Resize window vertical
+nnoremap <leader>+ :10winc ><CR>
+nnoremap <leader>- :10winc <<CR>
+
+" Remove highlighting of previous search
+nnoremap <leader><space> :nohl<CR>
+
+" Move quickly to-from header source files
+nnoremap <leader>a :A<CR>
+
+" One less key to type
+nnoremap ; :
+
+" Save on losing focus
+au FocusLost * :wa
+
+" Copy Paste System Clipboard
+" map <leader>y "+yy
+" vmap <C-c> "*y
+nnoremap <leader>pp :set paste<CR>o<esc>"*[p<CR> :set nopaste<CR> " paste from clipboard
+nnoremap <leader>P "*P
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" Fast saving
+nnoremap <leader>wq :wqall!<cr>
+nnoremap <leader>q :qa!<cr>
+nnoremap <leader>w :w!<cr>
+inoremap <C-s> <Esc>:w<CR>i
+
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+nnoremap <leader>sv :so $MYVIMRC<cr>
+
+" Do :help cope if you are unsure what cope is. It's super useful!
+"
+" When you search with vimgrep, display your results in cope by doing:
+"   <leader>cc
+"
+" To go to the next search result do:
+"   <leader>n
+"
+" To go to the previous search results do:
+"   <leader>p
+"
+nnoremap <leader>cc :botright cwindow<cr>
+nnoremap <leader>n :cn<cr>
+nnoremap <leader>p :cp<cr>
+autocmd QuickFixCmdPost *grep* cwindow
+
+" Tab shortcuts
+nnoremap <leader>to :tabnew<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tp :tabnext<cr>
+nnoremap <leader>tn :tabprev<cr>
+
+" Avoids to hit Enter command in messages window
+set shortmess=at
 
 " shortcuts to vimdiff
 if &diff
@@ -703,41 +731,25 @@ if &diff
     map <leader>uu :diffupdate<CR>
 endif
 
-" Using Ag silver searcher
-if executable('ag')
-    " From Vimbits
-    set grepprg=ag\ -l\ -i\ --ignore-dir=^bin\ --ignore-dir="^obj"\ --ignore-dir="^deps"\ -G "*\.(h|c|mib)"\ --nogroup\ --nocolor\ -U\ -C\ 2 
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-
-    " ctrl-p use ag for Searching
-    let g:ctrlp_user_command = 'ag %s -i -l --nocolor -g ""'
-    let g:ctrlp_use_caching = 0
-endif
-
-" Use grep for the word under the cursor
-nnoremap K :grep "expand("<cword>")
-
-" use ,F to jump to tag in a vertical split
- nnoremap <silent> ,F :let word=expand("<cword>")<CR>:vsp<CR>:wincmd w<cr>:exec("tag ". word)<cr>
-
-" use ,gf to go to file in a vertical split
-nnoremap <silent> ,gf :vertical botright wincmd f<CR>
-
-" List buffers and switch to one quickly
-nmap <leader>b :ls<CR>:buffer<Space>
-
-" auto format JSON File
-nmap <leader>j :%!python -m json.tool
-
-" Resize window vertical
-nnoremap <leader>+ :10winc ><CR>
-nnoremap <leader>- :10winc <<CR>
-
+" Keep text selected after manual indentation
+vnoremap < <gv
+vnoremap > >gv
 
 " pastetoggle
-set pastetoggle=<leader>p
+set pastetoggle=<F2>
 
 " hint to keep lines short
 if exists('+colorcolumn')
       set colorcolumn=80
 endif
+
+" Vim Default file explorer
+map <leader>k :Vexplore!<cr>
+let g:netrw_liststyle=3
+
+" NERDTree Shortcuts
+map <leader>r :NERDTreeFind<cr>
+map <leader>m :NERDTreeToggle<cr>
+
+" Rainbow
+let g:rainbow_active = 1
