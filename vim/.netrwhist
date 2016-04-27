@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/saketkus/ws/feature/00_perf_path/panos/nvc'
+let g:netrw_dirhist_2='/home/saketkus/ws/bugs_pr/panos/nvc'
+let g:netrw_dirhist_3='/home/saketkus/ws/bugs_pr/panos'
