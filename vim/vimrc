@@ -40,7 +40,11 @@ endif
 " Clipboard to system clipboard.
 "--------------------------------------------------------------------------
 " behave mswin
-set clipboard=unnamed
+if has('gui_running')
+    set clipboard=unnamed
+else
+    set clipboard=unnamed,unnamedplus
+endif
 
 "--------------------------------------------------------------------------
 " Syntax highlighting, specify 'off' to disable.
@@ -57,7 +61,7 @@ filetype plugin on
 " Syntax highlighting color scheme (for c/c++):
 "--------------------------------------------------------------------------
 if has('gui_running')
-    set background=light
+    set background=dark
 else
     set background=dark
 endif
@@ -620,14 +624,15 @@ let g:jedi#show_call_signatures = "1"
 let g:Cscope_PopupMenu = 1
 
 "Custom Font
-if has("gui_running")
-    set guifont=Monospace\ 14
-else
-    set guifont=Monospace\ 16
-endif
+" set guifont=Monospace\ 16
+set guifont=Inconsolata-dz\ for\ Powerline\ Medium\ 14
 
 " TMUX
 autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window '" . expand("%:t") . "'")
+
+" tbone plugin
+map <leader>txy :Tyank<cr>
+map <leader>txp :Tput<cr>
 
 " Mapping compilation command
 "nnoremap <F12> :ConqueTermVSplit mk cpm i386<CR>
