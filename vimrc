@@ -205,8 +205,8 @@ set ruler
 if has("win32")
     set shell=c:\bin\bash
 else
-    "set shell=/bin/bash
-    set shell=/bin/zsh
+    set shell=/bin/bash
+    "set shell=/bin/zsh
 endif
 
 " showcmd    - show command
